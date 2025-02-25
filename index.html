@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/protocol.js"></script>
+    <script src="/js/client.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/index_css.css">
+    <title>Genetic Game</title>
+</head>
+
+<body onload=setting_listener()>
+    <div class="header">
+        <p class="txts" id="info1" hidden="true">&nbsp</p>
+        <p class="txts" id="info2" hidden="true">&nbsp</p>
+    </div>
+    
+    <div class="page_1" >
+        <p class="txts" id="user_name_txt">輸入你的名字</p>
+        <input class="others" type="text" placeholder="Name" id="user_name" autocomplete="off">
+        <br>
+        <input id="login_btn" class="login_btn" type="button" onclick="send_nickname()" value="按我開始對戰">
+        <img class="others" id="loading_pic" hidden="true" src="./img/loading.gif">
+    </div>
+    <div class="page_2">
+        <p class="user_ans_id_txt" id="user_ans_id_txt" hidden="true">填入編號</p>
+        <input class="user_ans_id" hidden="true" type="text" placeholder="Name" id="user_ans_id" autocomplete="off">
+        <br>
+        <p class="user_ans_txt" id="user_ans_txt" hidden="true">填入基因型</p>
+        <input class="user_ans" hidden="true" type="text" placeholder="Name" id="user_ans" autocomplete="off">
+        <br>
+        <input class="ans_btn" hidden="true" id="ans_btn" type="button" onclick="send_answer()" value="發起攻擊！" >
+        <br>
+        <table id="pedigree" hidden="true">
+            <tr>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="A1" type="txt"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="A2" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="A3" type="txt"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="A4" type="txt"></td>
+            </tr>
+            <tr>
+                <td class="td_style" style="background-image: url('./img/left_corner.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/invert_T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/right_corner.png')"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/left_corner.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/cross.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/right_corner.png')"></td>
+            </tr>
+            <tr>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="B1" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="B2" type="txt"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="B3" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="B4" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="B5" type="txt"></td>
+            </tr>
+            <tr>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/left_corner.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/invert_T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/T_shape.png')"></td>
+                <td class="td_style" style="background-image: url('./img/horiz_bar.png')"></td>
+                <td class="td_style" style="background-image: url('./img/right_corner.png')"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+            </tr>
+            <tr>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="C1" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="C2" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/female.png')"><input class="genotype_box" id="C3" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" style="background-image: url('./img/male.png')"><input class="genotype_box" id="C4" type="txt"></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+                <td class="td_style" ></td>
+            </tr>
+            
+        </table>
+        <input class="send_ans_btn" hidden="true" id="send_ans_btn" type="button" onclick="send_set_answer()" value="確認填入答案">
+        <br>
+    </div>
+</body>
+
+
+</html>
