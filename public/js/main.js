@@ -47,6 +47,7 @@ class Game{
         }else if (rsp["wrong_type"]=="wrong_type_2"){
             result=this.#stsf(protocol.response.PERSON_INVALID,{wrong_guy:rsp["wrong_guy"]},[player])
         }
+        console.log("result: ",result)
         return result
     }
 
@@ -123,10 +124,10 @@ class Game{
         return result
     }
 
-    #stsf(r_type,data,target){
+    #stsf(rType,data,target){
         // send_to_server_format as stsf
-        // r_type從protocol來 data為{} target為[]
-        return {r_type:r_type,data:data,target:target}
+        // rType從protocol來 data為{} target為[]
+        return {rType:rType,data:data,target:target}
     }
 
 

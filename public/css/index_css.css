@@ -44,7 +44,7 @@ body{
 .send_ans_btn{
     border:0;
     position:absolute;
-    top:20%;
+    top:80%;
     width: 20%;
     height: 50px;
     left: 40%;
@@ -53,6 +53,7 @@ body{
     border-radius:10px;
     cursor:pointer;
     font-size: 20px;
+    z-index: 10;
 }
 
 .ans_btn{

@@ -1,3 +1,5 @@
+// const protocol = require("./protocol");
+
 var socket = io.connect();
 
 var opponent_name=null;
@@ -16,7 +18,6 @@ function setting_listener(){
         show(protocol.response.OPPONENT_LEFT)
         socket.disconnect();
     })
-    
     socket.on(protocol.response.OPPONENT,(data)=>{
         console.log("opponent_name=",data["opponent"])
         opponent_name=data["opponent"];
@@ -25,7 +26,7 @@ function setting_listener(){
     })
     
     socket.on(protocol.response.WAITING,(data)=>{
-        console.log("waiting");
+        console.log("🟡 Received WAITING from server", data);
         document.getElementById("loading_pic").hidden=false;
         show(protocol.response.WAITING);
     })
@@ -100,13 +101,17 @@ function send_nickname(){
 };
 
 function send_set_answer(){
+    console.log("start send set answer.")
     let ans={};
     for (let id of ids){
         ans[id]=document.getElementById(id).value
     }
-    
     // let answer={"ans":{'A1':"Aa","A2":"Aa","A3":"aa","A4":"aa","B1":"Aa","B2":"AA","B3":"aa","B4":"aa","B5":"aa","C1":"Aa","C2":"Aa","C3":"Aa","C4":"Aa"}}
-    socket.emit(protocol.request.SET_ANSWER,{"ans":ans})
+    try{
+        socket.emit(protocol.request.SET_ANSWER,{"ans":ans})
+    } catch{
+        console.error("empty!")
+    }
 }
 
 
