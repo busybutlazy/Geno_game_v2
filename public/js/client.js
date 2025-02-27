@@ -1,8 +1,9 @@
 // const protocol = require("./protocol");
 
-var socket = io.connect();
-
-var opponent_name=null;
+const socket = io.connect();
+var mynickname=null;// set at protocol.request.NICKNAME
+var whos_turn=null;// change at protocol.response.UPDATE_INFO
+var opponent_name=null;// set at protocol.response.OPPONENT
 
 var page_1=["user_name_txt","user_name","login_btn","loading_pic"]
 var page_2=["send_ans_btn","pedigree"]
@@ -41,7 +42,6 @@ function setting_listener(){
             document.getElementById(id).disabled=true;
         }
         set_info2("設置完成，等待對手....")
-        
     })
     
     socket.on(protocol.response.SET_ERROR,()=>{
@@ -50,7 +50,6 @@ function setting_listener(){
     })
     socket.on(protocol.response.GAME_INIT,()=>{
         show("GAME_INIT")
-        
     })
     socket.on(protocol.response.GAME_START,()=>{
         page_manager(page_3,page_2)
@@ -66,26 +65,39 @@ function setting_listener(){
     })
 
     socket.on(protocol.response.ANSWER_VALID,()=>{
-        set_info1("答對！！")
+        set_info1(produce_info("你","對方","","答對了！！"))
     })
     socket.on(protocol.response.ANSWER_INVALID,()=>{
-        set_info1("答錯！！噗噗～ 攻守交換")
-        
+        set_info1(produce_info("噗噗～<br>你","好險！<br>對方","","答錯了！！<br>攻守交換"))
     })
     socket.on(protocol.response.ALREADY_HIT,()=>{
-        set_info1("已經輸入過了！")
+        set_info1("這格已經輸入過了！！")
     })
     socket.on(protocol.response.OPPONENT_LEFT,()=>{
         set_info1("對方棄權！！")
     })
     
     socket.on(protocol.response.UPDATE_INFO,(data)=>{
-        let whos_turn=data["whos_turn"]
+        whos_turn=data["whos_turn"]
         let score=data["score"]
-        set_info2(whos_turn+"的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
-        clean_pedigree()
+        info=produce_info("你","對手","","的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
+        // set_info2(whos_turn+"的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
+        set_info2(info);
+        clean_pedigree();
         show_pedigree(data["pedigree_to_show"])
     })
+}
+
+function produce_info(str1,str2,commonHead="",commonTail=""){
+    //str1 is for user's turn. str2 is for opponent's turn.
+    let txt = commonHead;
+    console.log("mynickname:",mynickname)
+    console.log("whos_turn:",whos_turn)
+    console.log("equal?",mynickname===whos_turn)
+    if (mynickname===whos_turn){txt+=str1}else{txt+=str2}
+    txt+=commonTail;
+    console.log(txt)
+    return txt
 }
 
 
@@ -94,6 +106,7 @@ function send_nickname(){
     console.log(name);
     // document.getElementById("info").innerHTML=name;
     socket.emit(protocol.request.NICKNAME,{'name':name});
+    mynickname=name;
     set_info2("尋找對手中.....");
     page_manager(["info1","info2"],page_1)
     document.getElementsByClassName("page_1")[0].style.zIndex = 1;

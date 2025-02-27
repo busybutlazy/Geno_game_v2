@@ -30,8 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // 掛載路由
-const userRoutes = require('./routes/userRoutes');
-app.use('/api', userRoutes);
+// const userRoutes = require('./routes/userRoutes');
+// app.use('/api', userRoutes);
 
 const gameRoutes = require('./routes/gameRoutes');
 app.use('/api/game', gameRoutes);
@@ -42,6 +42,6 @@ app.get("/", (req, res) => {
 
 
 // 啟動伺服器
-server.listen(port, () => {
+server.listen(port,"0.0.0.0", () => {
     console.log(`🚀 伺服器運行中：http://localhost:${port}`);
 });
