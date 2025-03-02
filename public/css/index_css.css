@@ -9,7 +9,6 @@ body{
 }
 
 .header{
-    border:0;
     position:absolute;
     border:5px;
     margin: auto;
@@ -20,7 +19,6 @@ body{
     z-index: 1;
 }
 .page_1{
-    border:0;
     position:absolute;
     border:5px;
     margin: auto;
@@ -31,7 +29,6 @@ body{
     z-index: 3;
 }
 .page_2{
-    border:0;
     position:absolute;
     border:5px;
     margin: auto;
@@ -117,10 +114,10 @@ table{
 }
 
 .td_style{
-    border: 0px;
+    border: 1px solid black;
     height: 60px;
     width: 60px;
-    background-size: 91% auto;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     text-align: center;

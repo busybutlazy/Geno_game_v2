@@ -123,12 +123,11 @@ function startGame(game) {
 // Handle player disconnection
 function handleDisconnect(client) {
     console.log(`❌ Player ${client.id} disconnected.`);
-
     try {
         let opponent = opponents[client.id];
         if (opponent) {
+            sendFormat(protocol.response.OPPONENT_LEFT,null,[opponent.id]);
             delete opponents[opponent.id];
-            sendFormat(protocol.response.OPPONENT_LEFT,null,opponent.id,);
         }
     } catch {
         console.log("Opponent does not exist. Continuing disconnect handling.");
@@ -141,6 +140,8 @@ function handleDisconnect(client) {
 
 // Utility functions
 function sendToClient({target, rType, data}) {
+    console.log("[Debug] Send %s to %s:%s.",rType,clientNames[target[0]],target[0])
+    
     try{
         for (let clientId of target){
             console.log("rType:",rType)
@@ -151,7 +152,7 @@ function sendToClient({target, rType, data}) {
     }
 }
 
-function sendFormat(rType,data,target){
-    formatMsg={"rType":rType,"data":data,"target":target}
+function sendFormat(rType,data,targets){
+    formatMsg={"rType":rType,"data":data,"target":targets}
     sendToClient(formatMsg)
 }

@@ -9,6 +9,19 @@ var page_1=["user_name_txt","user_name","login_btn","loading_pic"]
 var page_2=["send_ans_btn","pedigree"]
 var ids=["A1","A2","A3","A4","B1","B2","B3","B4","B5","C1","C2","C3","C4"];
 var page_3=["user_ans_id_txt","user_ans_id","user_ans_txt","user_ans","ans_btn","pedigree"]
+
+
+// test function to print from server.
+const originalOn = socket.on;
+socket.on=function(event,callback){
+    console.log(`[DEBUG] Event received: ${event}`);
+    return originalOn.call(this,event,(...args)=>{
+        console.log(`[DEBUG] Data for ${event}:`, args);
+        callback(...args);
+    });
+}
+
+
 function setting_listener(){
     console.log("🔄 設定 WebSocket 監聽事件...");
     socket.on('connect', () => {
@@ -24,6 +37,7 @@ function setting_listener(){
         opponent_name=data["opponent"];
         set_info2("請填入我方的族譜『基因型』; AA或Aa或aa")
         page_manager(page_2,page_1);
+        set_pedigree_id.call();
     })
     
     socket.on(protocol.response.WAITING,(data)=>{
@@ -56,9 +70,10 @@ function setting_listener(){
     })
     socket.on(protocol.response.GAME_END,(data)=>{
         let winner= data["winner"]
-        set_info1("遊戲結束！！"+"<br>"+"贏家是"+winner)
+        set_info1("遊戲結束！！"+"<br>")
+        set_info2("贏家是"+winner)
         page_manager([],page_3)
-        page_manager([],["info2"])
+        page_manager([],[])
     })
     socket.on(protocol.response.NOT_YOUR_TURN,()=>{
         set_info1("不是你的回合，不要亂按！！")
@@ -74,7 +89,9 @@ function setting_listener(){
         set_info1("這格已經輸入過了！！")
     })
     socket.on(protocol.response.OPPONENT_LEFT,()=>{
-        set_info1("對方棄權！！")
+        set_info1("對方棄權")
+        set_info2("你贏了!!")
+
     })
     
     socket.on(protocol.response.UPDATE_INFO,(data)=>{
@@ -84,6 +101,7 @@ function setting_listener(){
         // set_info2(whos_turn+"的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
         set_info2(info);
         clean_pedigree();
+        set_pedigree_id.call();
         show_pedigree(data["pedigree_to_show"])
     })
 }
@@ -163,9 +181,39 @@ function clean_pedigree(){
         document.getElementById(id).value="";
     }
 }
+
+function set_pedigree_id(){
+    for (let id of ids){
+        document.getElementById(id).value=String(id);
+    }
+}
 function show_pedigree(p2show){
     let keys=Object.keys(p2show);
     for (let key of keys){
         document.getElementById(key).value=p2show[key];
+    }
+}
+
+function setText(input) {
+    if (input.value === input.id) {
+        input.value = "";  // 清空輸入框
+    }
+}
+
+function restoreText(input) {
+    if (input.value.trim() === "") {
+        input.value = input.id;  // 恢復預設文字
+    }
+}
+
+function clearText(input) {
+    if (input.value === input.id) {
+        input.value = "";  // 清空輸入框
+    }
+}
+
+function restoreText(input) {
+    if (input.value.trim() === "") {
+        input.value = input.id;  // 恢復預設文字
     }
 }
