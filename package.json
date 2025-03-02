@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/busybutlazy/Geno_game_v2/issues"
   },
-  "homepage": "https://github.com/busybutlazy/Geno_game_v2#readme"
+  "homepage": "https://github.com/busybutlazy/Geno_game_v2#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "sequelize": "^6.37.5",
+    "socket.io": "^4.8.1"
+  }
 }
