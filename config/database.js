@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     {
         host: process.env.DB_HOST,  // 資料庫位址
         port: process.env.DB_PORT,  // 連接埠（MariaDB 預設 3306）
-        dialect: 'mariadb',         
+        dialect: 'mysql',         
         logging: false              // 設定為 `true` 會顯示 SQL 查詢日誌
     }
 );

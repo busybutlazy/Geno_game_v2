@@ -7,7 +7,7 @@ const { Server } = require('socket.io');
 const gameSocket = require('./sockets/gameSocket');
 
 const app = express();
-const port = 9527;
+const port = 8000;
 
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -42,6 +42,6 @@ app.get("/", (req, res) => {
 
 
 // 啟動伺服器
-server.listen(port,"0.0.0.0", () => {
+server.listen(port,"::", () => {
     console.log(`🚀 伺服器運行中：http://localhost:${port}`);
 });
