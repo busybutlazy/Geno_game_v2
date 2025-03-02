@@ -1,0 +1,20 @@
+{
+  "name": "geno_game_v2",
+  "version": "1.0.0",
+  "description": "A web-based game built with JavaScript, designed to help students learn the fundamentals of Mendelian genetics through interactive challenges and simulations.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/busybutlazy/Geno_game_v2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/busybutlazy/Geno_game_v2/issues"
+  },
+  "homepage": "https://github.com/busybutlazy/Geno_game_v2#readme"
+}
