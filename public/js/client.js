@@ -80,24 +80,24 @@ function setting_listener(){
     })
 
     socket.on(protocol.response.ANSWER_VALID,()=>{
-        set_info1(produce_info("你","對方","","答對了！！"))
+        set_info1(produce_info("你",opponent_name,"","答對了！！"))
     })
     socket.on(protocol.response.ANSWER_INVALID,()=>{
-        set_info1(produce_info("噗噗～<br>你","好險！<br>對方","","答錯了！！<br>攻守交換"))
+        set_info1(produce_info("噗噗～你","好險！"+opponent_name,"","答錯了！！<br>攻守交換"))
     })
     socket.on(protocol.response.ALREADY_HIT,()=>{
         set_info1("這格已經輸入過了！！")
     })
     socket.on(protocol.response.OPPONENT_LEFT,()=>{
-        set_info1("對方棄權")
-        set_info2("你贏了!!")
+        set_info1(opponent_name+"棄權")
+        set_info2("【"+mynickname+"】你贏了!!")
 
     })
     
     socket.on(protocol.response.UPDATE_INFO,(data)=>{
         whos_turn=data["whos_turn"]
         let score=data["score"]
-        info=produce_info("你","對手","","的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
+        info=produce_info("你",opponent_name,"","的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
         // set_info2(whos_turn+"的回合"+"<br>"+"比分"+Object.values(score)[0]+" : "+Object.values(score)[1]);
         set_info2(info);
         clean_pedigree();

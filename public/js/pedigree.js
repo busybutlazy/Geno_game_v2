@@ -49,13 +49,14 @@ class Pedigree_builder{
     }
 
     #set_single_individual_genotype(id,genotype,pedigree){
+        
+        
         return pedigree[id].set_genotype(genotype);
     }
 
     set_ans_genotype(ans_dict){
         // wrong_type_1=輸入的數量不對
         // wrong_type_2=輸入的某人錯誤
-        
         if (Object.keys(ans_dict).length!=Object.keys(this.members).length){
             // 應該多檢查一項 填入的內容
             console.log("wrong number of ans")
@@ -69,9 +70,10 @@ class Pedigree_builder{
             if (!(this.valid_genotype.includes(genotype))){
                 result={wrong_type:"wrong_type_1"};
             }
-            let wrong_guy=this.#set_single_individual_genotype(id,genotype,this.members)
-            if (wrong_guy){
-                result={wrong_type:"wrong_type_2",wrong_guy:wrong_guy}
+            // let wrong_guy;
+            if ((genotype.length!=2) || (this.#set_single_individual_genotype(id,genotype,this.members))){
+            // if (wrong_guy){
+                result={wrong_type:"wrong_type_2",wrong_guy:id}
             }
         }
         return result
