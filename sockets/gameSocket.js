@@ -114,8 +114,13 @@ function startGame(game) {
     for (let player of game.players) {
         idToClient[player].on(protocol.request.ANSWER, (data) => {
             data["player"] = player;
-            sendToClient(game.next(data));
-            sendToClient(game.update_info(clientNames));
+            let next_step=game.next(data)
+            sendToClient(next_step);
+            
+            // console.log("[Debug]check end?",next_step.rType!==protocol.response.GAME_END)
+            if (next_step.rType!==protocol.response.GAME_END){
+                sendToClient(game.update_info(clientNames));
+            }
         });
     }
 }
@@ -140,7 +145,7 @@ function handleDisconnect(client) {
 
 // Utility functions
 function sendToClient({target, rType, data}) {
-    console.log("[Debug] Send %s to %s:%s.",rType,clientNames[target[0]],target[0])
+    // console.log("[Debug] Send %s to %s:%s.",rType,clientNames[target[0]],target[0])
     
     try{
         for (let clientId of target){

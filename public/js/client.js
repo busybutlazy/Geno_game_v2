@@ -70,8 +70,8 @@ function setting_listener(){
     })
     socket.on(protocol.response.GAME_END,(data)=>{
         let winner= data["winner"]
-        set_info2("")
-        set_info1("遊戲結束！！"+"<br>【"+winner+"】獲勝!!")
+        set_info1("遊戲結束！！")
+        set_info2("【"+winner+"】獲勝!!")
         page_manager([],page_3)
         page_manager([],[])
     })
